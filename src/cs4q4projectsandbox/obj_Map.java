@@ -1,14 +1,14 @@
 package cs4q4projectsandbox;
 
 class Map {
-    int[] Dimensions_XY = {16, 12};
+    private int[] Dimensions_XY = {16, 12};
     
     //---
     
     int Floor;
     int[] Position_XY;
 
-    String MapImage;
+    private String MapImage;
     
     Map(int F, int[] P_XY) {
         Floor = F;
@@ -24,14 +24,51 @@ class Map {
             MapImage += Position_XY[i];
         }
     }
+    
+    String getMapImage() {
+        return MapImage;
+    }
 }
 
 class MapObject {
-    String ObjectImage;
+    private String ObjectType;
     
+    private String ObjectImage;
     
-    
-    MapObject() {
+    MapObject(String OT) {
+        ObjectType = OT;
         
+        setCollisionType();
+        
+        //--- ObjectImage Generation
+        
+        
+    }
+    
+    //--- Push Type
+    
+    private String CollisionType;
+    
+    private void setCollisionType() {
+        switch(ObjectType) {
+            case "wall":
+            case "spike":
+                CollisionType = "wall";
+                break;
+            case "block":
+                CollisionType = "push";
+                break;
+            case "door":
+            case "ladder":
+                CollisionType = "warp";
+            case "button":
+            default:
+                CollisionType = "pass";
+                break; 
+        }
+    }
+    
+    String getCollisionType() {
+        return CollisionType;
     }
 }

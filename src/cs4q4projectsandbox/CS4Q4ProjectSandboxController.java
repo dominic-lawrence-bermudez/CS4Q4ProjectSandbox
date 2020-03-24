@@ -48,7 +48,7 @@ public class CS4Q4ProjectSandboxController implements Initializable {
     void loadMap(int cMF, int[] cMXY) {
         Map currentMap = new Map(currentMapFloor, currentMapXY);
         
-        String MapImagePath = "file:./src/resources/maps/" + currentMap.MapImage + ".png";
+        String MapImagePath = "file:./src/resources/maps/" + currentMap.getMapImage() + ".png";
         imgv_mapImage.setImage(new Image(MapImagePath));
     }
     
