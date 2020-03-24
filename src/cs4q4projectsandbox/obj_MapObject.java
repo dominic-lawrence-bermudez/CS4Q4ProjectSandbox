@@ -1,4 +1,7 @@
+package cs4q4projectsandbox;
+
 class MapObject {
+    private String Name;
     private String ObjectType;
     
     private String ObjectImage;
