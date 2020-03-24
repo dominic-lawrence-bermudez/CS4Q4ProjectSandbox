@@ -62,31 +62,29 @@ public class CS4Q4ProjectSandboxController implements Initializable {
     @FXML
     void detectKeyPress(KeyEvent ke) throws IOException {
         KeyCode KeyEventCode = ke.getCode();
-        System.out.println("press");
         
         switch (KeyEventCode) {
             case LEFT:
                 player.setDirectionFacing("left");
                 player.walk();
-                imgv_playerImage.setLayoutX(player.PlayerPosition[0]);
+                //imgv_playerImage.setLayoutX(player.PlayerPosition[0]);
                 break;
             case RIGHT:
                 player.setDirectionFacing("right");
                 player.walk();
-                imgv_playerImage.setLayoutX(player.PlayerPosition[0]);
+                //imgv_playerImage.setLayoutX(player.PlayerPosition[0]);
                 break;
             case DOWN:
                 player.setDirectionFacing("down");
                 player.walk();
-                imgv_playerImage.setLayoutY(player.PlayerPosition[1]);
+                //imgv_playerImage.setLayoutY(player.PlayerPosition[1]);
                 break;
             case UP:
                 player.setDirectionFacing("up");
                 player.walk();
-                imgv_playerImage.setLayoutY(player.PlayerPosition[1]);
+                //imgv_playerImage.setLayoutY(player.PlayerPosition[1]);
                 break;
                 
-            case Z:
             case X:
                 //openInventory()'
                 break;
@@ -98,10 +96,26 @@ public class CS4Q4ProjectSandboxController implements Initializable {
             default:
                 break;
         }
+        
+        System.out.println("+" + player.getDirectionFacing());
     }
     
     @FXML
     void detectKeyRelease(KeyEvent ke) {
+        KeyCode KeyEventCode = ke.getCode();
         
+        switch (KeyEventCode) {
+            case LEFT:
+            case RIGHT:
+                break;
+            case DOWN:
+            case UP:
+                break;
+                
+            default:
+                break;
+        }
+        
+        System.out.println("-" + player.getDirectionFacing());
     }
 }

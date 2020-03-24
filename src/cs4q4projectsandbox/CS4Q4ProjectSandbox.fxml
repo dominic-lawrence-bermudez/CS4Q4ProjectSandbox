@@ -8,9 +8,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 
-<AnchorPane fx:id="ap_parentAnchor" focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#detectKeyPress" onKeyReleased="#clicky" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="cs4q4projectsandbox.CS4Q4ProjectSandboxController">
+<AnchorPane fx:id="ap_parentAnchor" focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#detectKeyPress" onKeyReleased="#detectKeyRelease" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="cs4q4projectsandbox.CS4Q4ProjectSandboxController">
    <children>
-      <StackPane>
+      <StackPane prefHeight="768.0" prefWidth="1024.0">
          <children>
             <ImageView fx:id="imgv_mapImage" fitHeight="768.0" fitWidth="1024.0" pickOnBounds="true" />
             <GridPane alignment="CENTER">

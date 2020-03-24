@@ -4,31 +4,34 @@ class Player {
     final String FullName = "Jerry Barry Cruz";
     final String Nickname = "Jeby";
     
-    int[] PlayerPosition; //int[2]
-    String DirectionFacing;
+    int[] PlayerPosition_Grid; //int[2]
+    int[] PlayerPosition_Pixel;
+    private String DirectionFacing;
     
     Player() {
         DirectionFacing = "down";
-        PlayerPosition = new int[]{64*9, 64*7};
+        PlayerPosition_Grid = new int[]{9, 7};
     }
-    
-    final int walkValue = 2;
     
     void walk() {
         switch (DirectionFacing) {
             case "left":
-                PlayerPosition[0] -= walkValue;
+                PlayerPosition_Grid[0] -= 1;
                 break;
             case "right":
-                PlayerPosition[0] += walkValue;
+                PlayerPosition_Grid[0] += 1;
                 break;
             case "down":
-                PlayerPosition[1] -= walkValue;
+                PlayerPosition_Grid[1] -= 1;
                 break;
             case "up":
-                PlayerPosition[1] += walkValue;
+                PlayerPosition_Grid[1] += 1;
                 break;
         }
+    }
+    
+    String getDirectionFacing() {
+        return DirectionFacing;
     }
     
     void setDirectionFacing(String ND) {

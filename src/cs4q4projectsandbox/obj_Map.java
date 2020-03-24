@@ -28,4 +28,10 @@ class Map {
 
 class MapObject {
     String ObjectImage;
+    
+    
+    
+    MapObject() {
+        
+    }
 }
