@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+
+<AnchorPane fx:id="ap_parentAnchor" focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#detectKeyPress" onKeyReleased="#clicky" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="cs4q4projectsandbox.CS4Q4ProjectSandboxController">
+   <children>
+      <StackPane>
+         <children>
+            <ImageView fx:id="imgv_mapImage" fitHeight="768.0" fitWidth="1024.0" pickOnBounds="true" />
+            <GridPane alignment="CENTER">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" prefWidth="64.0" />
+                <ColumnConstraints hgrow="SOMETIMES" prefWidth="64.0" />
+                <ColumnConstraints hgrow="SOMETIMES" prefWidth="64.0" />
+                <ColumnConstraints hgrow="SOMETIMES" prefWidth="64.0" />
+                <ColumnConstraints hgrow="SOMETIMES" prefWidth="64.0" />
+                <ColumnConstraints hgrow="SOMETIMES" prefWidth="64.0" />
+                <ColumnConstraints hgrow="SOMETIMES" prefWidth="64.0" />
+                <ColumnConstraints hgrow="SOMETIMES" prefWidth="64.0" />
+                <ColumnConstraints hgrow="SOMETIMES" prefWidth="64.0" />
+                <ColumnConstraints hgrow="SOMETIMES" prefWidth="64.0" />
+                <ColumnConstraints hgrow="SOMETIMES" prefWidth="64.0" />
+                <ColumnConstraints hgrow="SOMETIMES" prefWidth="64.0" />
+                <ColumnConstraints hgrow="SOMETIMES" prefWidth="64.0" />
+                <ColumnConstraints hgrow="SOMETIMES" prefWidth="64.0" />
+                <ColumnConstraints hgrow="SOMETIMES" prefWidth="64.0" />
+                <ColumnConstraints hgrow="SOMETIMES" prefWidth="64.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" /><RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" /><RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+            </GridPane>
+            <ImageView fx:id="imgv_playerImage" fitHeight="64.0" fitWidth="64.0" focusTraversable="true" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/sprites/player.png" />
+               </image>
+            </ImageView>
+         </children>
+      </StackPane>
+   </children>
+</AnchorPane>
