@@ -8,6 +8,8 @@ class Map {
     int Floor;
     int[] Position_XY;
 
+    String[][] CollisionValues = new String[Dimensions_XY[0]][Dimensions_XY[1]];
+    
     private String MapImage;
     
     Map(int F, int[] P_XY) {
