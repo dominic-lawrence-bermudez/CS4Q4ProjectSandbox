@@ -1,58 +1,82 @@
 package cs4q4projectsandbox;
 
 class MapObject {
+    final private int TileSize = 64;
+    
+    private int[] GridPosition = new int[2];
+    private int[] PixelPosition = new int[2];
+    private String DirectionFacing;
+    
     private String Name;
     private String SpecificObjectType;
-    private String GeneralObjectType;
+    private String CollisionType;
+    
+    int[] GridSpan;
     
     private String ObjectImage;
     
-    MapObject(String SOT) {
-        this.SpecificObjectType = SOT;
-        
-        setGeneralObjectType();
+    MapObject() {
+        this.GridSpan = new int[]{1, 1};
         
         //--- ObjectImage Generation
         
+        this.ObjectImage = this.Name;
+    }
+    
+    MapObject(String SOT) {
+        this();
         
-    }
-    
-    MapObject(String SOT, String GOT) {
         this.SpecificObjectType = SOT;
-        this.GeneralObjectType = GOT;
+        setCollisionType();
     }
     
-    //--- General Object Type (for Collision, Pickup, Warp, etc.)
+    MapObject(String SOT, String CT) {
+        this();
+        
+        this.SpecificObjectType = SOT;
+        this.CollisionType = CT;
+    }
     
-    private void setGeneralObjectType() {
+    //--- Collision Type
+    
+    private void setCollisionType() {
         switch(this.SpecificObjectType) {
             case "wall":
             case "spike":
-            case "chair":
-            case "table":
-                GeneralObjectType = "wall";
+                this.CollisionType = "wall";
                 break;
             case "block":
-                GeneralObjectType = "push";
+                this.CollisionType = "push";
                 break;
             case "door":
-                GeneralObjectType = "warpXY";
+                this.CollisionType = "warpXY";
             case "ladderUp":
             case "stairsUp":
-                GeneralObjectType = "warpFloorUp";
+                this.CollisionType = "warpFloorUp";
                 break;
             case "ladderDown":
             case "stairsDown":
-                GeneralObjectType = "warpFloorDown";
+                this.CollisionType = "warpFloorDown";
                 break;
             case "button":
             default:
-                GeneralObjectType = "pass";
+                this.CollisionType = "pass";
                 break; 
         }
     }
     
-    String getGeneralObjectType() {
-        return GeneralObjectType;
+    String getCollisionType() {
+        return this.CollisionType;
+    }
+    
+    //---
+    
+    private void updatePixelPosition() {
+        this.PixelPosition[0] = this.TileSize * this.GridPosition[0];
+        this.PixelPosition[1] = this.TileSize * this.GridPosition[1];
+    }
+    
+    int[] getPixelPosition() {
+        return this.PixelPosition;
     }
 }
