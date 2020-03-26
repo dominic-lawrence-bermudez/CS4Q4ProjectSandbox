@@ -1,6 +1,8 @@
 package cs4q4projectsandbox;
 
 class Player {
+    final private int TileSize = 64;
+    
     final String FullName = "Jerry Barry Cruz";
     final String Nickname = "Jeby";
     
@@ -17,7 +19,6 @@ class Player {
         
         GridPosition[0] = GP[0];
         GridPosition[1] = GP[1];
-        
         updatePixelPosition();
     }
     
@@ -43,8 +44,8 @@ class Player {
     //---
     
     private void updatePixelPosition() {
-        PixelPosition[0] = Tile.Size * GridPosition[0];
-        PixelPosition[1] = Tile.Size * GridPosition[1];
+        PixelPosition[0] = TileSize * GridPosition[0];
+        PixelPosition[1] = TileSize * GridPosition[1];
     }
     
     int[] getPixelPosition() {
@@ -53,8 +54,6 @@ class Player {
     
     //---
     
-    
-    
     void setDirectionFacing(String ND) {
         DirectionFacing = ND;
     }
@@ -62,4 +61,8 @@ class Player {
     String getDirectionFacing() {
         return DirectionFacing;
     }  
+    
+    //---
+    
+    
 }
