@@ -10,6 +10,8 @@ class Player {
     int[] PixelPosition = new int[2];
     private String DirectionFacing;
     
+    String PlayerImage;
+    
     Player(int[] GP) {
         DirectionFacing = "down";
         
@@ -51,11 +53,13 @@ class Player {
     
     //---
     
+    
+    
     void setDirectionFacing(String ND) {
         DirectionFacing = ND;
     }
     
     String getDirectionFacing() {
         return DirectionFacing;
-    }
+    }  
 }

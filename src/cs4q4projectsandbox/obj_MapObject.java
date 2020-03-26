@@ -2,44 +2,57 @@ package cs4q4projectsandbox;
 
 class MapObject {
     private String Name;
-    private String ObjectType;
+    private String SpecificObjectType;
+    private String GeneralObjectType;
     
     private String ObjectImage;
     
-    MapObject(String OT) {
-        ObjectType = OT;
+    MapObject(String SOT) {
+        this.SpecificObjectType = SOT;
         
-        setCollisionType();
+        setGeneralObjectType();
         
         //--- ObjectImage Generation
         
         
     }
     
-    //--- Push Type
+    MapObject(String SOT, String GOT) {
+        this.SpecificObjectType = SOT;
+        this.GeneralObjectType = GOT;
+    }
     
-    private String CollisionType;
+    //--- General Object Type (for Collision, Pickup, Warp, etc.)
     
-    private void setCollisionType() {
-        switch(ObjectType) {
+    private void setGeneralObjectType() {
+        switch(this.SpecificObjectType) {
             case "wall":
             case "spike":
-                CollisionType = "wall";
+            case "chair":
+            case "table":
+                GeneralObjectType = "wall";
                 break;
             case "block":
-                CollisionType = "push";
+                GeneralObjectType = "push";
                 break;
             case "door":
-            case "ladder":
-                CollisionType = "warp";
+                GeneralObjectType = "warpXY";
+            case "ladderUp":
+            case "stairsUp":
+                GeneralObjectType = "warpFloorUp";
+                break;
+            case "ladderDown":
+            case "stairsDown":
+                GeneralObjectType = "warpFloorDown";
+                break;
             case "button":
             default:
-                CollisionType = "pass";
+                GeneralObjectType = "pass";
                 break; 
         }
     }
     
-    String getCollisionType() {
-        return CollisionType;
+    String getGeneralObjectType() {
+        return GeneralObjectType;
     }
 }

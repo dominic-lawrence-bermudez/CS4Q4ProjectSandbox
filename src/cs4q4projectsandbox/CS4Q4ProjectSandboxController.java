@@ -92,6 +92,10 @@ public class CS4Q4ProjectSandboxController implements Initializable {
         imgv_playerImage.setLayoutY(player.getPixelPosition()[1]);
     }
     
+    void updateObjectLocation(ImageView mapObject) {
+        
+    }
+    
     //---
     
     String[] PlayerMovement_XY = new String[2];
@@ -162,6 +166,8 @@ public class CS4Q4ProjectSandboxController implements Initializable {
                 tt.setByY(Tile.Size);
                 break;
         }
+        
+        //tt.setOnFinished
         
         tt.play();
     }
