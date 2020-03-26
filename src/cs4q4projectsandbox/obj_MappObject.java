@@ -1,6 +1,6 @@
 package cs4q4projectsandbox;
 
-class MapObject {
+class MappObject {
     final int TileSize = 64;
     
     private int[] GridPosition = new int[2];
@@ -15,7 +15,7 @@ class MapObject {
     
     private String ObjectImage;
     
-    MapObject() {
+    MappObject() {
         this.GridSpan = new int[]{1, 1};
         
         //--- ObjectImage Generation
@@ -23,14 +23,14 @@ class MapObject {
         this.ObjectImage = this.Name;
     }
     
-    MapObject(String SOT) {
+    MappObject(String SOT) {
         this();
         
         this.SpecificObjectType = SOT;
         setCollisionType();
     }
     
-    MapObject(String SOT, String CT) {
+    MappObject(String SOT, String CT) {
         this();
         
         this.SpecificObjectType = SOT;

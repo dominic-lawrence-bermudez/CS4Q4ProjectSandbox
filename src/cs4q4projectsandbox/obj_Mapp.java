@@ -1,6 +1,6 @@
 package cs4q4projectsandbox;
 
-class Map {
+class Mapp {
     private int[] Dimensions_XY = {16, 12};
     
     //---
@@ -12,7 +12,7 @@ class Map {
     
     private String MapImage;
     
-    Map(int F, int[] P_XY) {
+    Mapp(int F, int[] P_XY) {
         Floor = F;
         Position_XY = new int[]{P_XY[0], P_XY[1]};
 

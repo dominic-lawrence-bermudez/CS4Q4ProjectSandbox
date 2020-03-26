@@ -2,12 +2,16 @@ package cs4q4projectsandbox;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
+import javafx.animation.AnimationTimer;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -29,12 +33,12 @@ public class CS4Q4ProjectSandboxController implements Initializable {
         ap_parentAnchor.requestFocus();
                 
         player = new Player(GridSpawnpoint);
-        updatePlayerLocation();
+        updatePlayerPosition();
         
         //---
         
         currentMapFloor = 1;
-        currentMapXY = new int[]{3, 2};
+        currentMapXY = new int[]{2, 2};
         
         loadMap(currentMapFloor, currentMapXY);
     }
@@ -44,9 +48,9 @@ public class CS4Q4ProjectSandboxController implements Initializable {
     @FXML ImageView imgv_mapImage;
     
     void loadMap(int cMF, int[] cMXY) {
-        Map currentMap = new Map(currentMapFloor, currentMapXY);
+        Mapp currentMapp = new Mapp(currentMapFloor, currentMapXY);
         
-        String MapImagePath = "file:./src/resources/maps/" + currentMap.getMapImage() + ".png";
+        String MapImagePath = "file:./src/resources/maps/" + currentMapp.getMapImage() + ".png";
         imgv_mapImage.setImage(new Image(MapImagePath));
     }
     
@@ -87,18 +91,21 @@ public class CS4Q4ProjectSandboxController implements Initializable {
     
     @FXML ImageView imgv_playerImage;
     
-    void updatePlayerLocation() {
+    void updatePlayerPosition() {
         imgv_playerImage.setLayoutX(player.getPixelPosition()[0]);
         imgv_playerImage.setLayoutY(player.getPixelPosition()[1]);
     }
     
-    void updateObjectLocation(ImageView mapObject) {
-        
+    void updateObjectPosition(MappObject mapObject, ImageView mapObjectImage) {
+        mapObjectImage.setLayoutX(mapObject.getPixelPosition()[0]);
+        mapObjectImage.setLayoutY(mapObject.getPixelPosition()[1]);
     }
     
     //---
     
-    String[] PlayerMovement_XY = new String[2];
+    int[] PlayerMovement_XY = new int[2];
+    
+    Map<Integer, Integer> TestTest = new HashMap<>();
     
     @FXML
     void detectKeyPress(KeyEvent ke) throws IOException {
@@ -106,15 +113,21 @@ public class CS4Q4ProjectSandboxController implements Initializable {
               
         switch (KeyEventCode) {
             case LEFT:
+                PlayerMovement_XY[0]--;
+                break;
             case RIGHT:
+                PlayerMovement_XY[0]++;
+                break;
             case UP:
+                PlayerMovement_XY[1]--;
+                break;
             case DOWN:
-                moveObjectSmoothly(imgv_playerImage, KeyEventCode);
+                PlayerMovement_XY[1]++;
                 break;
                 
             case X:
                 //openInventory()'
-                changeMapToAdjacent("left");
+                
                 break;
             
             case ESCAPE:
@@ -134,10 +147,16 @@ public class CS4Q4ProjectSandboxController implements Initializable {
         
         switch (KeyEventCode) {
             case LEFT:
+                PlayerMovement_XY[0]++;
+                break;
             case RIGHT:
+                PlayerMovement_XY[0]--;
+                break;
+            case UP:
+                PlayerMovement_XY[1]++;
                 break;
             case DOWN:
-            case UP:
+                PlayerMovement_XY[1]--;
                 break;
                 
             default:
@@ -150,6 +169,8 @@ public class CS4Q4ProjectSandboxController implements Initializable {
     //---
     
     void moveObjectSmoothly (ImageView imageToMove, KeyCode direction) {
+        /*
+        
         TranslateTransition tt = new TranslateTransition(Duration.millis(200), imageToMove);
         
         switch (direction) {
@@ -166,9 +187,16 @@ public class CS4Q4ProjectSandboxController implements Initializable {
                 tt.setByY(Tile.Size);
                 break;
         }
-        
-        //tt.setOnFinished
-        
+
         tt.play();
-    }
+        
+        */
+        
+        new AnimationTimer() {
+            @Override
+            public void handle(long t_now) {
+                Scene scene = imageToMove.getScene();
+            }
+        }.start();
+    } 
 }
