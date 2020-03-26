@@ -1,7 +1,7 @@
 package cs4q4projectsandbox;
 
 class MapObject {
-    final private int TileSize = 64;
+    final int TileSize = 64;
     
     private int[] GridPosition = new int[2];
     private int[] PixelPosition = new int[2];
