@@ -14,27 +14,28 @@ class Player {
     
     String PlayerImage;
     
-    Player(int[] GP) {
-        DirectionFacing = "down";
+    Player(Mapp CM, int[] GP) {
+        this.ContainingMapp = CM;
+        this.DirectionFacing = "down";
         
-        GridPosition[0] = GP[0];
-        GridPosition[1] = GP[1];
+        this.GridPosition[0] = GP[0];
+        this.GridPosition[1] = GP[1];
         updatePixelPosition();
     }
     
     void walk() {
-        switch (DirectionFacing) {
+        switch (this.DirectionFacing) {
             case "left":
-                GridPosition[0]--;
+                this.GridPosition[0]--;
                 break;
             case "right":
-                GridPosition[0]++;
+                this.GridPosition[0]++;
                 break;
             case "up":
-                GridPosition[1]--;
+                this.GridPosition[1]--;
                 break;
             case "down":
-                GridPosition[1]++;
+                this.GridPosition[1]++;
                 break;
         }
         
@@ -92,5 +93,11 @@ class Player {
         }
         
         return ContainingMapp.getMappObject(this.GridPosition[0] + dX, this.GridPosition[1] + dY);
+    }
+    
+    boolean isMovableInDirection(String direction) {
+        MappObject nextObject = this.getObjectInDirection(ContainingMapp, direction);
+        
+        return nextObject.isMovableInDirection(direction);
     }
 }

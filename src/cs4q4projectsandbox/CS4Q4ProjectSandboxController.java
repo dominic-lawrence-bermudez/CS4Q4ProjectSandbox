@@ -103,25 +103,6 @@ public class CS4Q4ProjectSandboxController implements Initializable {
         mapObjectImage.setLayoutY(mapObject.getPixelPosition()[1]);
     }
     
-    boolean isPlayerMovableInDirection(String direction) {
-        MappObject overlap = player.getObjectInDirection(currentMapp, direction);
-        
-        return isObjectMovableInDirection(overlap, direction);
-    }
-    
-    boolean isObjectMovableInDirection(MappObject objectToMove, String direction) {
-        MappObject overlap = objectToMove.getObjectInDirection(objectToMove.getContainingMapp(), direction);
-        
-        switch (overlap.getCollisionType()) {
-            case "wall":
-                return false;
-            case "push":
-                return isObjectMovableInDirection(overlap, direction);
-            default:
-                return true;
-        }
-    }
-    
     //--- Key Listeners
     
     @FXML

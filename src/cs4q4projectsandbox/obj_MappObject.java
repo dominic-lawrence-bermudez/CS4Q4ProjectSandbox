@@ -22,19 +22,19 @@ class MappObject {
         this.ObjectImage = this.Name;
     }
     
-    MappObject(Mapp M, String SOT) {
+    MappObject(Mapp CM, String SOT) {
         this();
         
-        this.ContainingMapp = M;
+        this.ContainingMapp = CM;
         
         this.SpecificObjectType = SOT;
         setCollisionType();
     }
     
-    MappObject(Mapp M, String SOT, String CT) {
+    MappObject(Mapp CM, String SOT, String CT) {
         this();
         
-        this.ContainingMapp = M;
+        this.ContainingMapp = CM;
         
         this.SpecificObjectType = SOT;
         this.CollisionType = CT;
@@ -117,5 +117,19 @@ class MappObject {
         }
         
         return ContainingMapp.getMappObject(this.GridPosition[0] + dX, this.GridPosition[1] + dY);
+    }
+    
+    boolean isMovableInDirection(String direction) {
+        MappObject nextObject = this.getObjectInDirection(this.getContainingMapp(), direction);
+        
+        switch (nextObject.getCollisionType()) {
+            case "wall":
+                return false;
+            case "push":
+                return nextObject.isMovableInDirection(direction);
+            case "pass":
+            default:
+                return true;
+        }
     }
 }
