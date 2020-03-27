@@ -1,16 +1,23 @@
 package cs4q4projectsandbox;
 
 class Mapp {
-    private int[] Dimensions_XY = {16, 12};
+    private static int[] MapSizeXY = {16, 12};
+    final static int TILE_SIZE = 64;
     
     //---
     
     int Floor;
     int[] Position_XY;
 
-    String[][] CollisionValues = new String[Dimensions_XY[0]][Dimensions_XY[1]];
+    private MappObject[][] MappObjects = new MappObject[MapSizeXY[0]][MapSizeXY[1]];
     
-    private String MapImage;
+    MappObject getMappObject(int GPx, int GPy) {
+        return MappObjects[GPx][GPy];
+    }
+    
+    //---
+    
+    private String MapID;
     
     Mapp(int F, int[] P_XY) {
         Floor = F;
@@ -18,16 +25,16 @@ class Mapp {
 
         //--- MapImage Generation
         
-        MapImage = "Map_F" + Floor + "_";
+        MapID = "Map_F" + Floor + "_";
         
         for (int i = 0; i <= 1; i++) {
             if (P_XY[i] < 10)
-                MapImage += "0";
-            MapImage += Position_XY[i];
+                MapID += "0";
+            MapID += Position_XY[i];
         }
     }
     
-    String getMapImage() {
-        return MapImage;
+    String getMapID() {
+        return MapID;
     }
 }
