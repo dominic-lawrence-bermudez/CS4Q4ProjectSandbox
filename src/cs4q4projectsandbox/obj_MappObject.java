@@ -1,11 +1,10 @@
 package cs4q4projectsandbox;
 
 class MappObject {
-    final int TileSize = 64;
-    
     private int[] GridPosition = new int[2];
     private int[] PixelPosition = new int[2];
-    private String DirectionFacing;
+    
+    private Mapp ContainingMapp;
     
     private String Name;
     private String SpecificObjectType;
@@ -23,18 +22,26 @@ class MappObject {
         this.ObjectImage = this.Name;
     }
     
-    MappObject(String SOT) {
+    MappObject(Mapp M, String SOT) {
         this();
+        
+        this.ContainingMapp = M;
         
         this.SpecificObjectType = SOT;
         setCollisionType();
     }
     
-    MappObject(String SOT, String CT) {
+    MappObject(Mapp M, String SOT, String CT) {
         this();
+        
+        this.ContainingMapp = M;
         
         this.SpecificObjectType = SOT;
         this.CollisionType = CT;
+    }
+    
+    Mapp getContainingMapp() {
+        return this.ContainingMapp;
     }
     
     //--- Collision Type
@@ -71,12 +78,44 @@ class MappObject {
     
     //---
     
+    void setGridPosition(int GX, int GY) {
+        this.GridPosition[0] = GX;
+        this.GridPosition[1] = GY;
+    }
+    
     private void updatePixelPosition() {
-        this.PixelPosition[0] = this.TileSize * this.GridPosition[0];
-        this.PixelPosition[1] = this.TileSize * this.GridPosition[1];
+        this.PixelPosition[0] = Mapp.TILE_SIZE * this.GridPosition[0];
+        this.PixelPosition[1] = Mapp.TILE_SIZE * this.GridPosition[1];
+    }
+    
+    int[] getGridPosition() {
+        return this.GridPosition;
     }
     
     int[] getPixelPosition() {
         return this.PixelPosition;
+    }
+    
+    //---
+    
+    MappObject getObjectInDirection(Mapp ContainingMapp, String Direction) {
+        int dX = 0, dY = 0;
+        
+        switch (Direction) {
+            case "left":
+                dX = -1;
+                break;
+            case "right":
+                dX = +1;
+                break;
+            case "up":
+                dY = -1;
+                break;
+            case "down":
+                dY = +1;
+                break;
+        }
+        
+        return ContainingMapp.getMappObject(this.GridPosition[0] + dX, this.GridPosition[1] + dY);
     }
 }
