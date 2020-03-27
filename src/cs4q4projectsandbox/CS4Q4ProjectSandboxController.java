@@ -205,5 +205,5 @@ public class CS4Q4ProjectSandboxController implements Initializable {
         
         stage.setScene(scene);
         stage.show();
-    }  
+    }
 }
