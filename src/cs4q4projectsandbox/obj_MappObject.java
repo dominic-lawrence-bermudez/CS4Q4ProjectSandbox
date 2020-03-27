@@ -1,10 +1,10 @@
 package cs4q4projectsandbox;
 
 class MappObject {
+    private Mapp ContainingMapp;
+    
     private int[] GridPosition = new int[2];
     private int[] PixelPosition = new int[2];
-    
-    private Mapp ContainingMapp;
     
     private String Name;
     private String SpecificObjectType;

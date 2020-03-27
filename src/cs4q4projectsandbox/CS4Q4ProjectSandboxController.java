@@ -8,13 +8,17 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
 public class CS4Q4ProjectSandboxController implements Initializable {
     @FXML AnchorPane ap_parentAnchor;
@@ -30,28 +34,27 @@ public class CS4Q4ProjectSandboxController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         ap_parentAnchor.requestFocus();
                 
-        player = new Player(GridSpawnpoint);
-        updatePlayerPixelPosition();
-        
         //---
         
         currentMapFloor = 1;
-        currentMapXY = new int[]{2, 2};
-        
+        currentMapXY = new int[]{3, 2};
         changeMap(currentMapFloor, currentMapXY);
-        loadMap(currentMapFloor, currentMapXY);
+        
+        player = new Player(currentMapp, GridSpawnpoint);
+        updatePlayerPixelPosition();
     }
     
     void changeMap(int cMF, int[] cMXY) {
         currentMapp = new Mapp(cMF, cMXY);
+        loadMap(currentMapp);
     }
     
     //---
     
     @FXML ImageView imgv_mapImage;
     
-    void loadMap(int cMF, int[] cMXY) {
-        String MapImagePath = "file:./src/resources/maps/" + currentMapp.getMapID() + ".png";
+    void loadMap(Mapp CM) {
+        String MapImagePath = "file:./src/resources/maps/" + CM.getMapID() + ".png";
         imgv_mapImage.setImage(new Image(MapImagePath));
     }
     
@@ -85,7 +88,7 @@ public class CS4Q4ProjectSandboxController implements Initializable {
         currentMapXY[0] += dX;
         currentMapXY[1] += dY;
         
-        loadMap(currentMapFloor, currentMapXY);
+        changeMap(currentMapFloor, currentMapXY);
     }
     
     //---
@@ -106,7 +109,7 @@ public class CS4Q4ProjectSandboxController implements Initializable {
     //--- Key Listeners
     
     @FXML
-    void detectKeyPress(KeyEvent ke) throws IOException {
+    void detectKeyPress(KeyEvent ke) {
         KeyCode KeyEventCode = ke.getCode();
               
         switch (KeyEventCode) {
@@ -130,14 +133,18 @@ public class CS4Q4ProjectSandboxController implements Initializable {
                 player.walk();
                 updatePlayerPixelPosition();
                 break;
-                
+            
+            //to be removed
+            case Z:
+                changeMapToAdjacent("left");
+                break;
             case X:
-                //openInventory()'
-                
+                //changeScene("inventory");
+                changeMapToAdjacent("right");
                 break;
             
             case ESCAPE:
-                //backToMenu();
+                //changeScene("menu");
                 break;
                 
             default:
@@ -168,6 +175,35 @@ public class CS4Q4ProjectSandboxController implements Initializable {
         System.out.println("-" + player.getDirectionFacing());
     }
     
-    //---
+    //--- Scene Change
     
+    void changeScene(String newScene) throws IOException {
+        String newResource = "";
+        
+        switch (newScene) {
+            case "menu":
+                //newResource = "landing.fxml";
+                break;
+            case "load":
+                //newResource = "load.fxml";
+                break;
+            case "inventory":
+                //newResource = "inventory.fxml;
+                break;
+            case "save":
+                //newResource = "save.fxml";
+                break;
+            default:
+                newResource = "CS4Q4ProjectSandbox.fxml";
+                break;
+        }
+        
+        Parent root = FXMLLoader.load(getClass().getResource(newResource));
+        
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+        
+        stage.setScene(scene);
+        stage.show();
+    }  
 }

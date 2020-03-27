@@ -6,13 +6,11 @@ class Player {
     
     //---
     
-    Mapp ContainingMapp;
+    private Mapp ContainingMapp;
     
     int[] GridPosition = new int[2];
     int[] PixelPosition = new int[2];
     private String DirectionFacing;
-    
-    String PlayerImage;
     
     Player(Mapp CM, int[] GP) {
         this.ContainingMapp = CM;
