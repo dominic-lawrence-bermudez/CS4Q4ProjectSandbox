@@ -42,7 +42,7 @@ public class CS4Q4ProjectSandboxController implements Initializable {
         loadMap(currentMapp);
     }
     
-    //---
+    //--- Map Loading/Switching
     
     @FXML ImageView imgv_mapImage;
     
