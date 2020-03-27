@@ -60,7 +60,7 @@ class Player {
         return this.PixelPosition;
     }
     
-    //---
+    //--- Direction Facing
     
     void setDirectionFacing(String DF) {
         this.DirectionFacing = DF;
