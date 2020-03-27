@@ -185,7 +185,7 @@ public class CS4Q4ProjectSandboxController implements Initializable {
                 //newResource = "load.fxml";
                 break;
             case "inventory":
-                //newResource = "inventory.fxml;
+                //newResource = "inventory.fxml";
                 break;
             case "save":
                 //newResource = "save.fxml";
