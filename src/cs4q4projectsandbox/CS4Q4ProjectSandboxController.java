@@ -28,11 +28,7 @@ public class CS4Q4ProjectSandboxController implements Initializable {
     private Player player;
     
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        ap_parentAnchor.requestFocus();
-                
-        //---
-        
+    public void initialize(URL url, ResourceBundle rb) {       
         currentMapFloor = 1;
         currentMapXY = new int[]{3, 2};
         changeMap(currentMapFloor, currentMapXY);
@@ -88,7 +84,7 @@ public class CS4Q4ProjectSandboxController implements Initializable {
         changeMap(currentMapFloor, currentMapXY);
     }
     
-    //---
+    //--- Player/Object Movement
     
     //@FXML StackPane stkp_playerTile;
     @FXML ImageView imgv_playerImage;
@@ -185,7 +181,7 @@ public class CS4Q4ProjectSandboxController implements Initializable {
                 //newResource = "load.fxml";
                 break;
             case "inventory":
-                //newResource = "inventory.fxml;
+                //newResource = "inventory.fxml";
                 break;
             case "save":
                 //newResource = "save.fxml";
