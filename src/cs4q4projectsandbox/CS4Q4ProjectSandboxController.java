@@ -15,83 +15,48 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 
 public class CS4Q4ProjectSandboxController implements Initializable {
     @FXML AnchorPane ap_parentAnchor;
     
-    final private int[] GridSpawnpoint = {9, 7};    
-    int currentMapFloor;
-    int[] currentMapXY;
-    Mapp currentMapp;
+    final private int[] StartingMapp = {1, 3, 2};
+    final private int[] PlayerSpawnpoint = {0, 0};    
     
+    private World world;
     private Player player;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {       
-        currentMapFloor = 1;
-        currentMapXY = new int[]{3, 2};
-        changeMap(currentMapFloor, currentMapXY);
+        world = new World(StartingMapp[0], StartingMapp[1], StartingMapp[2]);
+        loadMapp(world.getCurrentMapp());
         
-        player = new Player(currentMapp, GridSpawnpoint);
+        player = new Player(world.getCurrentMapp(), PlayerSpawnpoint);
         updatePlayerPixelPosition();
     }
     
-    void changeMap(int cMF, int[] cMXY) {
-        currentMapp = new Mapp(cMF, cMXY);
-        loadMap(currentMapp);
-    }
-    
-    //--- Map Loading/Switching
+    //--- Map Loading
     
     @FXML ImageView imgv_mapImage;
     
-    void loadMap(Mapp CM) {
-        String MapImagePath = "file:./src/resources/maps/" + CM.getMapID() + ".png";
+    void loadMapp(Mapp map) {
+        String MapImagePath = "file:./src/resources/maps/" + map.getMapID() + ".png";
         imgv_mapImage.setImage(new Image(MapImagePath));
     }
     
-    void changeMapToAdjacent(String relativeDirection) {
-        int dF = 0, dX = 0, dY = 0;
-        
-        switch (relativeDirection) {
-            case "below":
-                dF = -1;
-                break;
-            case "above":
-                dF = +1;
-                break;
-            case "left":
-                dX = -1;
-                break;
-            case "right":
-                dX = +1;
-                break;
-            case "up":
-                dY = -1;
-                break;
-            case "down":
-                dY = +1;
-                break;
-            default:
-                break;
-        }
-        
-        currentMapFloor += dF;
-        currentMapXY[0] += dX;
-        currentMapXY[1] += dY;
-        
-        changeMap(currentMapFloor, currentMapXY);
+    void loadCurrentMapp() {
+        loadMapp(world.getCurrentMapp());
     }
     
     //--- Player/Object Movement
     
-    //@FXML StackPane stkp_playerTile;
+    @FXML TilePane tp_playerTile;
     @FXML ImageView imgv_playerImage;
     
     void updatePlayerPixelPosition() {
-        imgv_playerImage.setLayoutX(player.getPixelPosition()[0]);
-        imgv_playerImage.setLayoutY(player.getPixelPosition()[1]);
+        tp_playerTile.setLayoutX(player.getPixelPosition()[0]);
+        tp_playerTile.setLayoutY(player.getPixelPosition()[1]);
     }
     
     void updateObjectGridPosition(MappObject mapObject, ImageView mapObjectImage) {
@@ -108,32 +73,32 @@ public class CS4Q4ProjectSandboxController implements Initializable {
         switch (KeyEventCode) {
             case LEFT:
                 player.setDirectionFacing("left");
-                player.walk();
+                player.walk("left");
                 updatePlayerPixelPosition();
                 break;
             case RIGHT:
                 player.setDirectionFacing("right");
-                player.walk();
+                player.walk("right");
                 updatePlayerPixelPosition();
                 break;
             case UP:
                 player.setDirectionFacing("up");
-                player.walk();
+                player.walk("up");
                 updatePlayerPixelPosition();
                 break;
             case DOWN:
                 player.setDirectionFacing("down");
-                player.walk();
+                player.walk("down");
                 updatePlayerPixelPosition();
                 break;
             
             //to be removed
             case Z:
-                changeMapToAdjacent("left");
+                world.changeCurrentMapToAdjacent("left");
                 break;
             case X:
                 //changeScene("inventory");
-                changeMapToAdjacent("right");
+                world.changeCurrentMapToAdjacent("right");
                 break;
             
             case ESCAPE:
@@ -144,6 +109,9 @@ public class CS4Q4ProjectSandboxController implements Initializable {
                 break;
         }
         
+        loadCurrentMapp();
+        
+        imgv_playerImage.setImage(new Image("file:./src/resources/sprites/player_" + player.getDirectionFacing() + ".png"));
         System.out.println("+" + player.getDirectionFacing());
     }
     
