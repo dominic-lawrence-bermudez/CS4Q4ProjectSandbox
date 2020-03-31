@@ -5,8 +5,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.TilePane?>
 
 <AnchorPane fx:id="ap_parentAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#detectKeyPress" onKeyReleased="#detectKeyRelease" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs4q4projectsandbox.CS4Q4ProjectSandboxController">
    <children>
@@ -45,14 +45,14 @@
             <RowConstraints maxHeight="64.0" minHeight="64.0" prefHeight="64.0" vgrow="SOMETIMES" />
         </rowConstraints>
       </GridPane>
-      <Pane prefHeight="200.0" prefWidth="200.0">
+      <TilePane fx:id="tp_playerTile" alignment="CENTER" prefColumns="1" prefHeight="64.0" prefRows="1" prefWidth="64.0">
          <children>
             <ImageView fx:id="imgv_playerImage" fitHeight="64.0" fitWidth="64.0" focusTraversable="true" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../resources/sprites/player.png" />
+                  <Image url="@../resources/sprites/player_down.png" />
                </image>
             </ImageView>
          </children>
-      </Pane>
+      </TilePane>
    </children>
 </AnchorPane>
