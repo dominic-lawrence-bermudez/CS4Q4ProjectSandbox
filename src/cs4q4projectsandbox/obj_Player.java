@@ -4,7 +4,7 @@ class Player {
     final String FullName = "Jerry Barry Cruz";
     final String Nickname = "Jeby";
     
-    //---
+    //--- Player Constructors
     
     private Mapp ContainingMapp;
     
@@ -20,27 +20,12 @@ class Player {
         this.GridPosition[1] = GP[1];
         updatePixelPosition();
     }
+
+    //--- Player Constructor Get/Set
     
-    void walk() {
-        switch (this.DirectionFacing) {
-            case "left":
-                this.GridPosition[0]--;
-                break;
-            case "right":
-                this.GridPosition[0]++;
-                break;
-            case "up":
-                this.GridPosition[1]--;
-                break;
-            case "down":
-                this.GridPosition[1]++;
-                break;
-        }
-        
-        updatePixelPosition();
+    Mapp getContainingMapp() {
+        return this.ContainingMapp;
     }
-    
-    //---
     
     void setGridPosition(int GPx, int GPy) {
         this.GridPosition[0] = GPx;
@@ -60,17 +45,15 @@ class Player {
         return this.PixelPosition;
     }
     
-    //--- Direction Facing
-    
     void setDirectionFacing(String DF) {
         this.DirectionFacing = DF;
     }
     
     String getDirectionFacing() {
         return this.DirectionFacing;
-    }  
+    }
     
-    //---
+    //--- Get Object In Direction
     
     MappObject getObjectInDirection(Mapp ContainingMapp, String Direction) {
         int dX = 0, dY = 0;
@@ -88,14 +71,76 @@ class Player {
             case "down":
                 dY = +1;
                 break;
+            case "here":
+                break;
         }
+        
+        if (this.GridPosition[0] + dX < 0 || this.GridPosition[0] + dX >= Mapp.MAP_SIZE_XY[0])
+            return new MappObject(ContainingMapp, "boundary");
+        if (this.GridPosition[1] + dY < 0 || this.GridPosition[1] + dY >= Mapp.MAP_SIZE_XY[1])
+            return new MappObject(ContainingMapp, "boundary");
         
         return ContainingMapp.getMappObject(this.GridPosition[0] + dX, this.GridPosition[1] + dY);
     }
     
+    //--- Player Movement
+    
     boolean isMovableInDirection(String direction) {
-        MappObject nextObject = this.getObjectInDirection(ContainingMapp, direction);
+        MappObject nextObject = this.getObjectInDirection(this.getContainingMapp(), direction);
         
-        return nextObject.isMovableInDirection(direction);
+        switch (nextObject.getCollisionType()) {
+            case "wall":
+                return false;
+            case "push":
+                return nextObject.isMovableInDirection(direction);
+            case "warpXY":
+            case "warpFloorUp":
+            case "warpFloorDown":
+                return true;
+            case "pass":
+            default:
+                return true;
+        }
+    }
+    
+    void walk(String direction) {
+        if (!isMovableInDirection(this.DirectionFacing))
+            return;
+        
+        MappObject nextObject = this.getObjectInDirection(this.getContainingMapp(), direction);
+        
+        //if (nextObject.getCollisionType().equals("push"))
+            //nextObject.move(direction);
+        
+        switch (direction) {
+            case "left":
+                this.GridPosition[0]--;
+                break;
+            case "right":
+                this.GridPosition[0]++;
+                break;
+            case "up":
+                this.GridPosition[1]--;
+                break;
+            case "down":
+                this.GridPosition[1]++;
+                break;
+        }
+        
+        switch (nextObject.getCollisionType()) {
+            case "warpXY":
+                this.getContainingMapp().getContainingWorld().changeCurrentMapToAdjacent(direction);
+                break;
+            case "warpFloorUp":
+                this.getContainingMapp().getContainingWorld().changeCurrentMapToAdjacent("above");
+                break;
+            case "warpFloorDown":
+                this.getContainingMapp().getContainingWorld().changeCurrentMapToAdjacent("below");
+                break;
+            default:
+                break;                
+        }
+        
+        updatePixelPosition();
     }
 }

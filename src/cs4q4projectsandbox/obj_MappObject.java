@@ -1,25 +1,23 @@
 package cs4q4projectsandbox;
 
 class MappObject {
-    private Mapp ContainingMapp;
-    
     private int[] GridPosition = new int[2];
     private int[] PixelPosition = new int[2];
+    
+    //--- MappObject Constructors
+    
+    private Mapp ContainingMapp;
+    
+    int[] GridSpan;
     
     private String Name;
     private String SpecificObjectType;
     private String CollisionType;
     
-    int[] GridSpan;
-    
-    private String ObjectImage;
+    //private String ObjectImage;
     
     MappObject() {
         this.GridSpan = new int[]{1, 1};
-        
-        //--- ObjectImage Generation
-        
-        this.ObjectImage = this.Name;
     }
     
     MappObject(Mapp CM, String SOT) {
@@ -40,14 +38,21 @@ class MappObject {
         this.CollisionType = CT;
     }
     
+    //--- MappObject Constructor Get/Set
+    
     Mapp getContainingMapp() {
         return this.ContainingMapp;
     }
     
-    //--- Collision Type
+    String getSpecificObjectType() {
+        return this.SpecificObjectType;
+    }
     
     private void setCollisionType() {
         switch(this.SpecificObjectType) {
+            case "boundary":
+                this.CollisionType = "wall";
+                break;
             case "wall":
             case "spike":
                 this.CollisionType = "wall";
@@ -57,15 +62,16 @@ class MappObject {
                 break;
             case "door":
                 this.CollisionType = "warpXY";
-            case "ladderUp":
-            case "stairsUp":
-                this.CollisionType = "warpFloorUp";
                 break;
-            case "ladderDown":
-            case "stairsDown":
-                this.CollisionType = "warpFloorDown";
+            case "ladderAbove":
+            case "stairsAbove":
+                this.CollisionType = "warpFloorAbove";
                 break;
-            case "button":
+            case "ladderBelow":
+            case "stairsBelow":
+                this.CollisionType = "warpFloorBelow";
+                break;
+            case "nothing":
             default:
                 this.CollisionType = "pass";
                 break; 
@@ -74,6 +80,48 @@ class MappObject {
     
     String getCollisionType() {
         return this.CollisionType;
+    }
+    
+    //---
+    
+    boolean isMovableInDirection(String direction) {
+        MappObject nextObject = this.getObjectInDirection(this.getContainingMapp(), direction);
+        
+        switch (nextObject.getCollisionType()) {
+            case "wall":
+                return false;
+            case "push":
+                return nextObject.isMovableInDirection(direction);
+            case "warpXY":
+            case "warpFloorUp":
+            case "warpFloorDown":
+                return false;
+            case "pass":
+            default:
+                if (nextObject.getSpecificObjectType().equals("nothing"))
+                    return true;
+                else
+                    return false;
+        }
+    }
+    
+    void move(String direction) {
+        switch (direction) {
+            case "left":
+                this.GridPosition[0]--;
+                break;
+            case "right":
+                this.GridPosition[0]++;
+                break;
+            case "up":
+                this.GridPosition[1]--;
+                break;
+            case "down":
+                this.GridPosition[1]++;
+                break;
+        }
+        
+        updatePixelPosition();
     }
     
     //---
@@ -114,22 +162,10 @@ class MappObject {
             case "down":
                 dY = +1;
                 break;
+            case "here":
+                break;
         }
         
         return ContainingMapp.getMappObject(this.GridPosition[0] + dX, this.GridPosition[1] + dY);
-    }
-    
-    boolean isMovableInDirection(String direction) {
-        MappObject nextObject = this.getObjectInDirection(this.getContainingMapp(), direction);
-        
-        switch (nextObject.getCollisionType()) {
-            case "wall":
-                return false;
-            case "push":
-                return nextObject.isMovableInDirection(direction);
-            case "pass":
-            default:
-                return true;
-        }
     }
 }
