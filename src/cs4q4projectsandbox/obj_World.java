@@ -4,12 +4,12 @@ class World {
     final static int MAX_MAP_FLOORS = 8;
     final static int[] MAX_MAPS_XY = {64, 64};
     
-    //---
+    //--- World Constructors
     
     private String WorldName;
     private Mapp[][][] Mapps = new Mapp[MAX_MAP_FLOORS][MAX_MAPS_XY[0]][MAX_MAPS_XY[1]];
     
-    World() {
+    private World() {
         for (int f = 0; f < MAX_MAP_FLOORS; f++) {
             for (int x = 0; x < MAX_MAPS_XY[0]; x++) {
                 for (int y = 0; y < MAX_MAPS_XY[1]; y++) {
@@ -17,8 +17,6 @@ class World {
                 }
             }
         }
-        
-        //this.CurrentMapp =
     }
     
     World(int F, int Mx, int My) {
@@ -33,21 +31,19 @@ class World {
         this.WorldName = WN;
     }
     
-    //---
+    //--- World Constructors Get/Set
       
-    Mapp getMapp(int F, int Mx, int My) {
+    final Mapp getMapp(int F, int Mx, int My) {
         return this.Mapps[F][Mx][My];
     }
     
-    //---
-    
     private Mapp CurrentMapp;
     
-    void setCurrentMapp(int F, int Mx, int My) {
+    final void setCurrentMapp(int F, int Mx, int My) {
         this.CurrentMapp = Mapps[F][Mx][My];
     }
     
-    void changeCurrentMapToAdjacent(String direction) {
+    final void changeCurrentMapToAdjacent(String direction) {
         int dF = 0, dX = 0, dY = 0;
         
         switch (direction) {
@@ -82,7 +78,7 @@ class World {
         );
     }
     
-    Mapp getCurrentMapp() {
+    final Mapp getCurrentMapp() {
         return this.CurrentMapp;
     }
 }
