@@ -101,6 +101,10 @@ public class CS4Q4ProjectSandboxController implements Initializable {
                 world.changeCurrentMapToAdjacent("right");
                 break;
             
+            case SPACE:
+                player.interact();
+                break;
+                
             case ESCAPE:
                 //changeScene("menu");
                 break;
@@ -112,7 +116,7 @@ public class CS4Q4ProjectSandboxController implements Initializable {
         loadCurrentMapp();
         
         imgv_playerImage.setImage(new Image("file:./src/resources/sprites/player_" + player.getDirectionFacing() + ".png"));
-        System.out.println("+" + player.getDirectionFacing());
+        //System.out.println("+" + player.getDirectionFacing());
     }
     
     @FXML
@@ -133,7 +137,7 @@ public class CS4Q4ProjectSandboxController implements Initializable {
                 break;
         }
         
-        System.out.println("-" + player.getDirectionFacing());
+        //System.out.println("-" + player.getDirectionFacing());
     }
     
     //--- Scene Change
