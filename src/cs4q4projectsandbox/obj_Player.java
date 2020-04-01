@@ -16,9 +16,7 @@ class Player {
         this.ContainingMapp = CM;
         this.DirectionFacing = "down";
         
-        this.GridPosition[0] = GP[0];
-        this.GridPosition[1] = GP[1];
-        updatePixelPosition();
+        this.setGridPosition(GP[0], GP[1]);
     }
 
     //--- Player Constructor Get/Set
@@ -30,6 +28,8 @@ class Player {
     void setGridPosition(int GPx, int GPy) {
         this.GridPosition[0] = GPx;
         this.GridPosition[1] = GPy;
+        
+        updatePixelPosition();
     }
     
     private void updatePixelPosition() {
@@ -55,7 +55,7 @@ class Player {
     
     //--- Get Object In Direction
     
-    MappObject getObjectInDirection(Mapp ContainingMapp, String Direction) {
+    MappObject getMappObjectInDirection(Mapp ContainingMapp, String Direction) {
         int dX = 0, dY = 0;
         
         switch (Direction) {
@@ -75,18 +75,21 @@ class Player {
                 break;
         }
         
-        if (this.GridPosition[0] + dX < 0 || this.GridPosition[0] + dX >= Mapp.MAP_SIZE_XY[0])
+        int newX = this.GridPosition[0] + dX;
+        int newY = this.GridPosition[1] + dY;
+        
+        if (newX < 0 || newX >= Mapp.MAP_SIZE_XY[0])
             return new MappObject(ContainingMapp, "boundary");
-        if (this.GridPosition[1] + dY < 0 || this.GridPosition[1] + dY >= Mapp.MAP_SIZE_XY[1])
+        if (newY < 0 || newY >= Mapp.MAP_SIZE_XY[1])
             return new MappObject(ContainingMapp, "boundary");
         
-        return ContainingMapp.getMappObject(this.GridPosition[0] + dX, this.GridPosition[1] + dY);
+        return ContainingMapp.getMappObject(newX, newY);
     }
     
     //--- Player Movement
     
-    boolean isMovableInDirection(String direction) {
-        MappObject nextObject = this.getObjectInDirection(this.getContainingMapp(), direction);
+    boolean canWalkInDirection(String direction) {
+        MappObject nextObject = this.getMappObjectInDirection(this.getContainingMapp(), direction);
         
         switch (nextObject.getCollisionType()) {
             case "wall":
@@ -104,30 +107,38 @@ class Player {
     }
     
     void walk(String direction) {
-        if (!isMovableInDirection(this.DirectionFacing))
+        if (!canWalkInDirection(direction))
             return;
-        
-        MappObject nextObject = this.getObjectInDirection(this.getContainingMapp(), direction);
-        
-        //if (nextObject.getCollisionType().equals("push"))
-            //nextObject.move(direction);
-        
+          
+        //---
+            
+        int dX = 0, dY = 0;
+            
         switch (direction) {
             case "left":
-                this.GridPosition[0]--;
+                dX = -1;
                 break;
             case "right":
-                this.GridPosition[0]++;
+                dX = +1;
                 break;
             case "up":
-                this.GridPosition[1]--;
+                dY = -1;
                 break;
             case "down":
-                this.GridPosition[1]++;
+                dY = +1;
                 break;
         }
         
-        switch (nextObject.getCollisionType()) {
+        this.setGridPosition(this.GridPosition[0] + dX, this.GridPosition[1] + dY);
+        
+        //---
+        
+        MappObject currentMappObject = this.getMappObjectInDirection(this.getContainingMapp(), "here");
+        
+        switch (currentMappObject.getCollisionType()) {
+            case "push":
+                //nextObject.move(direction);
+                break;
             case "warpXY":
                 this.getContainingMapp().getContainingWorld().changeCurrentMapToAdjacent(direction);
                 break;
@@ -140,7 +151,13 @@ class Player {
             default:
                 break;                
         }
-        
-        updatePixelPosition();
+    }
+    
+    //---
+    
+    void interact() {
+        MappObject objectFacing = this.getMappObjectInDirection(this.ContainingMapp, this.DirectionFacing);
+    
+        objectFacing.interactWithPlayer();
     }
 }

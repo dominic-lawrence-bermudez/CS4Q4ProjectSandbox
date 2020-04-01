@@ -8,15 +8,14 @@ class MappObject {
     
     private Mapp ContainingMapp;
     
-    int[] GridSpan;
+    private int[] GridSpan;
     
-    private String Name;
     private String SpecificObjectType;
     private String CollisionType;
-    
+    private String InteractionMessage;
     //private String ObjectImage;
     
-    MappObject() {
+    private MappObject() {
         this.GridSpan = new int[]{1, 1};
     }
     
@@ -26,35 +25,68 @@ class MappObject {
         this.ContainingMapp = CM;
         
         this.SpecificObjectType = SOT;
-        setCollisionType();
+        this.setCollisionType();
+        
+        this.InteractionMessage = "";
     }
     
-    MappObject(Mapp CM, String SOT, String CT) {
-        this();
+    MappObject(Mapp CM, String SOT, String IM) {
+        this(CM, SOT);
         
-        this.ContainingMapp = CM;
+        this.InteractionMessage = IM;
+    }
+    
+    MappObject(Mapp CM, int GPx, int GPy, String SOT) {
+        this(CM, SOT);
         
-        this.SpecificObjectType = SOT;
-        this.CollisionType = CT;
+        this.setGridPosition(GPx, GPy);
+    }
+    
+    MappObject(Mapp CM, int GPx, int GPy, String SOT, String IM) {
+        this(CM, GPx, GPy, SOT);
+        
+        this.InteractionMessage = IM;
     }
     
     //--- MappObject Constructor Get/Set
     
-    Mapp getContainingMapp() {
+    final Mapp getContainingMapp() {
         return this.ContainingMapp;
     }
     
-    String getSpecificObjectType() {
+    final void setGridPosition(int GPx, int GPy) {
+        this.GridPosition[0] = GPx;
+        this.GridPosition[1] = GPy;
+        
+        updatePixelPosition();
+    }
+    
+    private void updatePixelPosition() {
+        this.PixelPosition[0] = Mapp.TILE_SIZE * this.GridPosition[0];
+        this.PixelPosition[1] = Mapp.TILE_SIZE * this.GridPosition[1];
+    }
+    
+    final int[] getGridPosition() {
+        return this.GridPosition;
+    }
+    
+    final int[] getPixelPosition() {
+        return this.PixelPosition;
+    }
+    
+    final String getSpecificObjectType() {
         return this.SpecificObjectType;
     }
     
     private void setCollisionType() {
         switch(this.SpecificObjectType) {
             case "boundary":
+            case "wall":
                 this.CollisionType = "wall";
                 break;
-            case "wall":
-            case "spike":
+            case "object":
+            case "checkpoint":
+            case "npc":
                 this.CollisionType = "wall";
                 break;
             case "block":
@@ -71,6 +103,8 @@ class MappObject {
             case "stairsBelow":
                 this.CollisionType = "warpFloorBelow";
                 break;
+            case "stairs":
+            case "item":
             case "nothing":
             default:
                 this.CollisionType = "pass";
@@ -78,75 +112,13 @@ class MappObject {
         }
     }
     
-    String getCollisionType() {
+    final String getCollisionType() {
         return this.CollisionType;
     }
     
-    //---
+    //--- Get Object In Direction
     
-    boolean isMovableInDirection(String direction) {
-        MappObject nextObject = this.getObjectInDirection(this.getContainingMapp(), direction);
-        
-        switch (nextObject.getCollisionType()) {
-            case "wall":
-                return false;
-            case "push":
-                return nextObject.isMovableInDirection(direction);
-            case "warpXY":
-            case "warpFloorUp":
-            case "warpFloorDown":
-                return false;
-            case "pass":
-            default:
-                if (nextObject.getSpecificObjectType().equals("nothing"))
-                    return true;
-                else
-                    return false;
-        }
-    }
-    
-    void move(String direction) {
-        switch (direction) {
-            case "left":
-                this.GridPosition[0]--;
-                break;
-            case "right":
-                this.GridPosition[0]++;
-                break;
-            case "up":
-                this.GridPosition[1]--;
-                break;
-            case "down":
-                this.GridPosition[1]++;
-                break;
-        }
-        
-        updatePixelPosition();
-    }
-    
-    //---
-    
-    void setGridPosition(int GX, int GY) {
-        this.GridPosition[0] = GX;
-        this.GridPosition[1] = GY;
-    }
-    
-    private void updatePixelPosition() {
-        this.PixelPosition[0] = Mapp.TILE_SIZE * this.GridPosition[0];
-        this.PixelPosition[1] = Mapp.TILE_SIZE * this.GridPosition[1];
-    }
-    
-    int[] getGridPosition() {
-        return this.GridPosition;
-    }
-    
-    int[] getPixelPosition() {
-        return this.PixelPosition;
-    }
-    
-    //---
-    
-    MappObject getObjectInDirection(Mapp ContainingMapp, String Direction) {
+    final MappObject getMappObjectInDirection(Mapp ContainingMapp, String Direction) {
         int dX = 0, dY = 0;
         
         switch (Direction) {
@@ -167,5 +139,69 @@ class MappObject {
         }
         
         return ContainingMapp.getMappObject(this.GridPosition[0] + dX, this.GridPosition[1] + dY);
+    }
+    
+    //--- MappObject Movement
+    
+    final boolean isMovableInDirection(String direction) {
+        MappObject nextObject = this.getMappObjectInDirection(this.getContainingMapp(), direction);
+        
+        switch (nextObject.getCollisionType()) {
+            case "wall":
+                return false;
+            case "push":
+                //return nextObject.isMovableInDirection(direction);
+                return false;
+            case "warpXY":
+            case "warpFloorUp":
+            case "warpFloorDown":
+                return false;
+            case "pass":
+            default:
+                return nextObject.getSpecificObjectType().equals("nothing");
+        }
+    }
+    
+    final void move(String direction) {
+        int dX = 0, dY = 0;
+        
+        switch (direction) {
+            case "left":
+                dX = -1;
+                break;
+            case "right":
+                dX = +1;
+                break;
+            case "up":
+                dY = -1;
+                break;
+            case "down":
+                dY = +1;
+                break;
+        }
+        
+        this.setGridPosition(this.GridPosition[0] + dX, this.GridPosition[1] + dY);
+    }
+    
+    //---
+    
+    void interactWithPlayer() {
+        switch (this.SpecificObjectType) {
+            case "item":
+                // pick up item
+                this.displayMessage();
+                return;
+            case "checkpoint":
+                // switch scene
+            default:
+                break;
+        }
+    }
+    
+    void displayMessage() {
+        if (this.InteractionMessage.equals(""))
+            return;
+        
+        System.out.println(this.InteractionMessage);
     }
 }
