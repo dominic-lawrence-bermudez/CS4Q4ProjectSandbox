@@ -1,8 +1,8 @@
 package cs4q4projectsandbox;
 
 class World {
-    final static int MAX_MAP_FLOORS = 8;
-    final static int[] MAX_MAPS_XY = {64, 64};
+    final static int MAX_MAP_FLOORS = 4;
+    final static int[] MAX_MAPS_XY = {16, 16};
     
     //--- World Constructors
     
